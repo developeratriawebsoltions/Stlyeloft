@@ -1,0 +1,277 @@
+{
+  "info": {
+    "name": "Stlyeloft API",
+    "_postman_id": "stlyeloft-collection-v1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:3000" },
+    { "key": "token", "value": "" },
+    { "key": "user_id", "value": "" },
+    { "key": "campaign_id", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/auth",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"signup\",\n  \"name\": \"Test Admin\",\n  \"email\": \"admin@test.com\",\n  \"password\": \"Test@1234\",\n  \"role\": \"admin\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Verify OTP (register)",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/auth",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"verify-otp\",\n  \"email\": \"admin@test.com\",\n  \"code\": \"123456\",\n  \"type\": \"register\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login (password)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.token) pm.collectionVariables.set('token', res.token);",
+                  "if (res.user?._id) pm.collectionVariables.set('user_id', res.user._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/auth",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"login\",\n  \"email\": \"admin@test.com\",\n  \"password\": \"Test@1234\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Send Login OTP",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/auth",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"send-login-otp\",\n  \"email\": \"admin@test.com\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Verify OTP (login)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.token) pm.collectionVariables.set('token', res.token);",
+                  "if (res.user?._id) pm.collectionVariables.set('user_id', res.user._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/auth",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"verify-otp\",\n  \"email\": \"admin@test.com\",\n  \"code\": \"123456\",\n  \"type\": \"login\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/auth",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"forgot-password\",\n  \"email\": \"admin@test.com\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Reset Password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.token) pm.collectionVariables.set('token', res.token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/auth",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"reset-password\",\n  \"email\": \"admin@test.com\",\n  \"code\": \"123456\",\n  \"newPassword\": \"NewPass@1234\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/users",
+            "header": [{ "key": "Cookie", "value": "stlyeloft_token={{token}}" }]
+          }
+        },
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/users?id={{user_id}}",
+              "query": [{ "key": "id", "value": "{{user_id}}" }]
+            },
+            "header": [{ "key": "Cookie", "value": "stlyeloft_token={{token}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Campaigns",
+      "item": [
+        {
+          "name": "Create Campaign",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res._id) pm.collectionVariables.set('campaign_id', res._id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/campaigns",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "stlyeloft_token={{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Summer Campaign 2025\",\n  \"description\": \"Our summer marketing push\",\n  \"ownerId\": \"{{user_id}}\",\n  \"assignedClientId\": \"\",\n  \"startDate\": \"2025-06-01\",\n  \"endDate\": \"2025-08-31\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Campaigns",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/campaigns",
+            "header": [{ "key": "Cookie", "value": "stlyeloft_token={{token}}" }]
+          }
+        },
+        {
+          "name": "Get Campaigns (filtered)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/campaigns?status=draft&search=summer",
+              "query": [
+                { "key": "status", "value": "draft" },
+                { "key": "search", "value": "summer" }
+              ]
+            },
+            "header": [{ "key": "Cookie", "value": "stlyeloft_token={{token}}" }]
+          }
+        },
+        {
+          "name": "Get Campaign By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/campaigns?id={{campaign_id}}",
+              "query": [{ "key": "id", "value": "{{campaign_id}}" }]
+            },
+            "header": [{ "key": "Cookie", "value": "stlyeloft_token={{token}}" }]
+          }
+        },
+        {
+          "name": "Update Campaign",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{base_url}}/api/campaigns?id={{campaign_id}}",
+              "query": [{ "key": "id", "value": "{{campaign_id}}" }]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "stlyeloft_token={{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Summer Campaign 2025 (Updated)\",\n  \"status\": \"active\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Campaign",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/api/campaigns?id={{campaign_id}}",
+              "query": [{ "key": "id", "value": "{{campaign_id}}" }]
+            },
+            "header": [{ "key": "Cookie", "value": "stlyeloft_token={{token}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Uploads",
+      "item": [
+        {
+          "name": "Upload Campaign Image",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/uploads",
+            "header": [{ "key": "Cookie", "value": "stlyeloft_token={{token}}" }],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "file", "type": "file", "src": "" },
+                { "key": "campaignId", "value": "{{campaign_id}}", "type": "text" },
+                { "key": "altText", "value": "Campaign image", "type": "text" }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

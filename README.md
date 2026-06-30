@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stlyeloft – Production-Level Campaign Management Platform
 
-## Getting Started
+Stlyeloft is a production-ready campaign management platform built for managing clients, campaigns, campaign images, and role-based operations through a secure and scalable system.
 
-First, run the development server:
+## User Roles
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Super Admin
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Manage Admin accounts
+- Manage Clients
+- View all campaigns
+- Delete or update any campaign
+- Monitor system activity and analytics
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Admin
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Create and manage clients
+- Create campaigns
+- Upload campaign images
+- Edit and delete campaigns
+- Manage campaign records and galleries
 
-## Learn More
+### Client
 
-To learn more about Next.js, take a look at the following resources:
+- View assigned campaigns
+- View campaign images and gallery
+- Export campaign data
+- Track campaign details and status
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Authentication & Security
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Email OTP verification during registration
+- OTP-based login
+- Password-based login
+- Forgot password using OTP verification
+- JWT authentication
+- Role-based route protection
+- Secure password hashing with bcrypt
 
-## Deploy on Vercel
+## Campaign Management
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Create campaigns
+- Assign campaigns to clients
+- Upload multiple campaign images
+- Campaign search and filtering
+- Pagination support
+- Campaign editing and deletion
+- Campaign status tracking
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Media Management
+
+- Cloud-based image storage
+- Multiple image uploads
+- Image gallery management
+- Secure media access
+
+## Reporting & Export
+
+- CSV export functionality
+- Campaign reports
+- Client campaign history
+
+## Technology Stack
+
+### Frontend
+
+- Next.js 15
+- TypeScript
+- Tailwind CSS
+
+### Backend
+
+- Next.js API Routes
+- JWT Authentication
+- Nodemailer for OTP services
