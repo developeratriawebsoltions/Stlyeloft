@@ -5,6 +5,8 @@ import ClientsTable from "@/components/shared/ClientsTable";
 import { getUsers } from "@/actions/user.actions";
 import { getCampaignCountsByClientIds } from "@/actions/campaign.actions";
 
+export const dynamic = "force-dynamic";
+
 type UserRecord = {
   _id: string;
   name?: string;
