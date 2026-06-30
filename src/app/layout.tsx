@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react";
 import RouteChangeLoader from "@/components/ui/RouteChangeLoader";
 import "./globals.css";
 
@@ -29,7 +30,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-zinc-50 text-zinc-950 dark:bg-zinc-950 dark:text-zinc-100">
-        <RouteChangeLoader />
+        <Suspense fallback={null}>
+          <RouteChangeLoader />
+        </Suspense>
         {children}
       </body>
     </html>
