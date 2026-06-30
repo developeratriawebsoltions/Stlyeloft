@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Megaphone } from "lucide-react";
+import { LayoutDashboard, Megaphone, UserCog } from "lucide-react";
 
 const mainNav = [
   { label: "Dashboard", href: "/client/dashboard", icon: LayoutDashboard },
@@ -54,7 +54,7 @@ export default function ClientSidebar() {
   }
 
   return (
-    <aside className="hidden h-screen w-64 shrink-0 flex-col border-r border-gray-200 bg-white lg:flex">
+    <aside className="hidden h-screen w-64 shrink-0 flex-col border-r border-gray-200 bg-white lg:flex relative">
 
       <div className="flex items-center gap-2 border-b border-gray-200 px-6 py-5">
         <span className="text-xl font-bold text-gray-900 text-center">Stlyeloft</span>
@@ -117,12 +117,19 @@ export default function ClientSidebar() {
         </button>
 
         {isProfileOpen && (
-          <div className="rounded-xl border border-gray-200 bg-white p-3 shadow-lg shadow-black/5">
+          <div className="absolute bottom-[4.5rem] left-2 right-2 rounded-xl border border-gray-200 bg-white p-3 shadow-lg shadow-black/5 z-50">
             <div className="mb-3 space-y-1">
               <p className="text-sm font-semibold text-gray-900">{user?.name ?? "Client"}</p>
               <p className="text-sm text-gray-500">{user?.email ?? "client@stlyeloft.com"}</p>
             </div>
             <div className="space-y-2">
+              <Link
+                href="/client/profile"
+                className="flex w-full items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-left text-sm font-medium text-gray-700 hover:bg-gray-100"
+              >
+                <UserCog size={15} className="text-gray-400" />
+                Edit Profile
+              </Link>
               <button
                 type="button"
                 onClick={handleLogout}

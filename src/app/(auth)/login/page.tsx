@@ -168,7 +168,7 @@ function AuthForm() {
                 <div className="flex flex-col gap-1.5">
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Password</label>
-                    <Link href="/forgot-password" className="text-xs text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200">Forgot password?</Link>
+                    <Link href={`/forgot-password?role=${roleParam}`} className="text-xs text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200">Forgot password?</Link>
                   </div>
                   <div className="relative">
                     <input type={showPassword ? "text" : "password"} required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" className={inputCls + " pr-10"} />

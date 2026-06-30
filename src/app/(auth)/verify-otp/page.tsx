@@ -35,7 +35,7 @@ function VerifyOtpForm() {
         else if (r === "admin") window.location.href = "/admin/dashboard";
         else window.location.href = "/client/dashboard";
       } else {
-        window.location.href = `/reset-password?email=${encodeURIComponent(email)}&code=${code}`;
+        window.location.href = `/reset-password?email=${encodeURIComponent(email)}&code=${code}&role=${role}`;
       }
     } catch {
       setError("Something went wrong.");

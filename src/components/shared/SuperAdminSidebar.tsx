@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, UserCircle, Megaphone, LogOut } from "lucide-react";
+import { LayoutDashboard, Users, UserCircle, Megaphone, LogOut, UserCog } from "lucide-react";
 
 const mainNav = [
   { label: "Dashboard", href: "/super-admin/dashboard", icon: LayoutDashboard },
@@ -110,6 +110,14 @@ export default function SuperAdminSidebar() {
             </p>
           </div>
         </div>
+
+        <Link
+          href="/super-admin/profile"
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-base font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
+        >
+          <UserCog size={20} className="text-gray-400" />
+          Edit Profile
+        </Link>
 
         <button
           onClick={handleLogout}
