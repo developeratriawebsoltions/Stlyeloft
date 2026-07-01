@@ -117,7 +117,7 @@ export default function SuperAdminCampaignsPage() {
                       <td className="px-6 py-4 text-zinc-500 dark:text-zinc-400">{campaign.location || "—"}</td>
                       <td className="px-6 py-4">
                         <Link
-                          href={`/super-admin/campaigns/${campaign._id}`}
+                          href={`/admin/campaigns/${campaign._id}`}
                           className=" cursor-pointer inline-flex items-center rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-700 transition hover:bg-indigo-100 dark:border-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-200"
                         >
                           View More

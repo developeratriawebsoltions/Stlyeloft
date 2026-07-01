@@ -59,6 +59,10 @@ export default function CampaignDetailPage() {
   const [loading, setLoading] = useState(true);
   const [lightbox, setLightbox] = useState<string | null>(null);
 
+  // Pagination
+  const PAGE_SIZE = 10;
+  const [page, setPage] = useState(1);
+
   // Upload modal
   const [showUpload, setShowUpload] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -275,6 +279,23 @@ export default function CampaignDetailPage() {
 
   const inputCls = "rounded-lg border border-zinc-200 px-3 py-2 text-base outline-none focus:border-indigo-500 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 w-full";
 
+  const totalPages = Math.ceil(images.length / PAGE_SIZE);
+  const paginatedImages = images.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  function pageNumbers() {
+    const pages: (number | "...")[] = [];
+    if (totalPages <= 5) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (page > 3) pages.push("...");
+      for (let i = Math.max(2, page - 1); i <= Math.min(totalPages - 1, page + 1); i++) pages.push(i);
+      if (page < totalPages - 2) pages.push("...");
+      pages.push(totalPages);
+    }
+    return pages;
+  }
+
   return (
     <SuperAdminLayout>
       <main className="p-6">
@@ -316,7 +337,7 @@ export default function CampaignDetailPage() {
                   <td colSpan={7} className="px-5 py-10 text-center text-base text-zinc-500">No images found for this campaign.</td>
                 </tr>
               ) : (
-                images.map((img, i) => (
+                paginatedImages.map((img, i) => (
                   <tr key={img._id} className={i % 2 === 0 ? "bg-white dark:bg-zinc-900" : "bg-zinc-50 dark:bg-zinc-950"}>
                     <td className="px-5 py-4 font-medium text-base text-zinc-800 dark:text-zinc-200">{img.title || campaign.title}</td>
                     <td className="px-5 py-4 text-base text-zinc-600 dark:text-zinc-400">{fmt(img.startDate) !== "—" ? fmt(img.startDate) : fmt(campaign.startDate)}</td>
@@ -339,6 +360,48 @@ export default function CampaignDetailPage() {
             </tbody>
           </table>
         </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-4 flex items-center justify-between rounded-xl border border-zinc-200 bg-white px-6 py-3 dark:border-zinc-700 dark:bg-zinc-900">
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              Showing {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, images.length)} of {images.length} entries
+            </p>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={page === 1}
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-300 text-zinc-500 hover:bg-zinc-50 disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-400"
+              >
+                ‹
+              </button>
+              {pageNumbers().map((p, i) =>
+                p === "..." ? (
+                  <span key={`ellipsis-${i}`} className="flex h-8 w-8 items-center justify-center text-sm text-zinc-400">...</span>
+                ) : (
+                  <button
+                    key={p}
+                    onClick={() => setPage(p)}
+                    className={`flex h-8 w-8 items-center justify-center rounded-lg text-sm font-medium transition ${
+                      page === p
+                        ? "bg-indigo-600 text-white"
+                        : "border border-zinc-300 text-zinc-600 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300"
+                    }`}
+                  >
+                    {p}
+                  </button>
+                )
+              )}
+              <button
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                disabled={page === totalPages}
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-300 text-zinc-500 hover:bg-zinc-50 disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-400"
+              >
+                ›
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="mt-4">
           <button onClick={() => { setUploadForm({ title: campaign.title, camptype: campaign.camptype || "", dimension: campaign.dimension || "", startDate: toInputDate(campaign.startDate), endDate: toInputDate(campaign.endDate) }); setShowUpload(true); }} className=" cursor-pointer rounded-lg bg-zinc-600 px-5 py-2 text-base font-semibold text-white hover:bg-zinc-700">

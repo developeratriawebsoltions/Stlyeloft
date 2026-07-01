@@ -177,9 +177,6 @@ export default async function SuperAdminDashboard() {
                   <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-50">Recent Activities</h2>
                   <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Track the latest platform actions.</p>
                 </div>
-                <Link href="/super-admin/admins" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-200">
-                  View All
-                </Link>
               </div>
               <div className="space-y-4">
                 {recentActivities.map((activity, index) => (
