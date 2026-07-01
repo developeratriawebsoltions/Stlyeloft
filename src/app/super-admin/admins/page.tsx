@@ -4,6 +4,8 @@ import SuperAdminLayout from "@/components/shared/SuperAdminLayout";
 import SuperAdminAdminsTable from "@/components/shared/SuperAdminAdminsTable";
 import { getUsers } from "@/actions/user.actions";
 
+export const dynamic = "force-dynamic";
+
 type UserRecord = {
   _id: string;
   email?: string;

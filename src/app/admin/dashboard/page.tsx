@@ -1,7 +1,7 @@
 import Link from "next/link";
 import LogoutButton from "@/components/ui/LogoutButton";
 import AdminLayout from "@/components/shared/AdminLayout";
-import { getUsers } from "@/actions/user.actions";
+import { getClientCount, getClients } from "@/actions/user.actions";
 import {
   countCampaignImages,
   getCampaignCountsByClientIds,
@@ -9,6 +9,8 @@ import {
   getCampaignsCreatedThisMonth,
   getRecentCampaigns,
 } from "@/actions/campaign.actions";
+
+export const dynamic = "force-dynamic";
 
 function formatRelativeDate(date?: Date | string | null) {
   if (!date) return "";
@@ -40,8 +42,10 @@ const statClasses = {
 } as const;
 
 export default async function AdminDashboard() {
-  const allUsers = await getUsers();
-  const clients = allUsers.filter((user) => user.role === "client").slice(0, 5);
+  const [totalClientCount, clients] = await Promise.all([
+    getClientCount(),
+    getClients(5),
+  ]);
   const campaignCounts = await getCampaignCountsByClientIds(clients.map((client) => String(client._id)));
   const statusCounts = await getCampaignStatusCounts();
   const recentCampaigns = await getRecentCampaigns();
@@ -50,7 +54,7 @@ export default async function AdminDashboard() {
   const totalCampaigns = Object.values(statusCounts).reduce((sum, value) => sum + value, 0);
 
   const stats = [
-    { label: "Total Clients", value: String(clients.length), change: "Live count", color: "emerald" },
+    { label: "Total Clients", value: String(totalClientCount), change: "Live count", color: "emerald" },
     { label: "Total Campaigns", value: String(totalCampaigns), change: "Current total", color: "violet" },
     { label: "Total Images", value: String(totalImages), change: "Uploaded images", color: "amber" },
   ];

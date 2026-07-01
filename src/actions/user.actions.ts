@@ -9,6 +9,25 @@ export async function getUsers() {
     .lean();
 }
 
+export async function getClientCount(): Promise<number> {
+  await connectDb();
+  return User.countDocuments({ role: "client" });
+}
+
+export async function getAdminCount(): Promise<number> {
+  await connectDb();
+  return User.countDocuments({ role: { $in: ["admin", "super-admin"] } });
+}
+
+export async function getClients(limit?: number) {
+  await connectDb();
+  const query = User.find({ role: "client" })
+    .select("email name role clientNumber createdAt updatedAt")
+    .sort({ createdAt: -1 });
+  if (limit) query.limit(limit);
+  return query.lean();
+}
+
 export async function getUserById(id: string) {
   await connectDb();
   return User.findById(id)

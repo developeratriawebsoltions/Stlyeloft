@@ -94,18 +94,17 @@ export default function SuperAdminCampaignsPage() {
                   <th className="px-6 py-4 font-semibold">Username</th>
                   <th className="px-6 py-4 font-semibold">Campaign Name</th>
                   <th className="px-6 py-4 font-semibold">Location</th>
-                  <th className="px-6 py-4 font-semibold">Total Views</th>
                   <th className="px-6 py-4 font-semibold">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-12 text-center text-zinc-500">Loading...</td>
+                    <td colSpan={4} className="px-6 py-12 text-center text-zinc-500">Loading...</td>
                   </tr>
                 ) : campaigns.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-12 text-center text-zinc-500">No campaigns found.</td>
+                    <td colSpan={4} className="px-6 py-12 text-center text-zinc-500">No campaigns found.</td>
                   </tr>
                 ) : (
                   campaigns.map((campaign) => (
@@ -115,7 +114,6 @@ export default function SuperAdminCampaignsPage() {
                       </td>
                       <td className="px-6 py-4 font-medium text-zinc-900 dark:text-zinc-100">{campaign.title}</td>
                       <td className="px-6 py-4 text-zinc-500 dark:text-zinc-400">{campaign.location || "—"}</td>
-                      <td className="px-6 py-4 text-zinc-500 dark:text-zinc-400">{campaign.totalViews ?? 0}</td>
                       <td className="px-6 py-4">
                         <Link
                           href={`/super-admin/campaigns/${campaign._id}`}
